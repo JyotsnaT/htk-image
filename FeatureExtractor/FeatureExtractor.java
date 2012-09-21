@@ -4,5 +4,5 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 public interface FeatureExtractor {
-   List<Double> extract(BufferedImage img);
+   List<List<Double>> extract(BufferedImage img);//Each inner list represents 1 frame.
 }
