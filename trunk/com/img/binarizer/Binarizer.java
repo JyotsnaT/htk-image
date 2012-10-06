@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.RandomAccessFile;
 
+import com.img.extractor.*;
+
 class InconsistentVectorSizeException extends Exception {
 
 	/**
@@ -64,6 +66,48 @@ public class Binarizer {
 			buffer = aux.ConvertToByte((short) (4 * vecSize)); outFile.write(buffer);
 			buffer = aux.ConvertToByte((short) 9); outFile.write(buffer);	// USER
 			outFile.close(); inData.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InconsistentVectorSizeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void binarize(ScanLine sampleSet, String outFileName) {
+		// With no arguments = show usage
+		
+		// Main loop
+		Auxiliary aux = new Auxiliary();
+		try {
+			// Open output file
+			RandomAccessFile outFile = new RandomAccessFile(outFileName, "rw");
+			outFile.seek(12);	// skip header
+			int vecSize = new Integer(0); // initialized to 0
+			int sampCount = 0;
+			//while ((line = br.readLine()) != null) {
+			for (RegionFeature featureVector : sampleSet) {
+				if (vecSize == 0) vecSize = featureVector.size();
+				else if (vecSize != featureVector.size()) {
+					outFile.close();
+					throw new InconsistentVectorSizeException(featureVector.toString());
+				}
+				for (Double val : featureVector) {
+					byte[] floatBytes = aux.ConvertToByte(val.floatValue());
+					outFile.write(floatBytes);
+				}
+				sampCount++;
+			}
+			outFile.seek(0);
+			byte[] buffer = aux.ConvertToByte(sampCount); outFile.write(buffer);
+			buffer = aux.ConvertToByte((int) 100000); outFile.write(buffer);
+			buffer = aux.ConvertToByte((short) (4 * vecSize)); outFile.write(buffer);
+			buffer = aux.ConvertToByte((short) 9); outFile.write(buffer);	// USER
+			outFile.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
