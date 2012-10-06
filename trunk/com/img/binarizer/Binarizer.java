@@ -29,7 +29,7 @@ public class Binarizer {
 	 * @param args fieldSeparator inputFile outputFile
 	 * running: java Binarizer.class fieldSeparator inputFile outputFile
 	 */
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		// With no arguments = show usage
 		if (args.length < 3) ShowUsage();
 		
@@ -76,7 +76,7 @@ public class Binarizer {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
+	}*/
 	
 	public void binarize(ScanLine sampleSet, String outFileName) {
 		// With no arguments = show usage
