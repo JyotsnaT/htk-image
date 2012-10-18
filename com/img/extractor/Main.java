@@ -18,12 +18,12 @@ public class Main {
 	public static void main(String[] args) {
 		try(Scanner sc=new Scanner(System.in)){
 			String filepath = sc.next();
-			FeatureExtractor fe=new DCTExtractor(5); //let the size of the block be 5x5.
+			FeatureExtractor fe=new LabelExtractor(5); //let the size of the block be 5x5.
 		    Path path = Paths.get(filepath);
 		    try(InputStream is=Files.newInputStream(path)){
 		    	BufferedImage image = ImageIO.read(is);
 		    	ScanLine[] features = fe.extract(image); //Note that the first floor(size/2) rows and columns are ommitted
-		    	System.out.println(features[0]); 
+		    	System.out.println(features[120]); 
 		    } catch (IOException e) {
 				
 				e.printStackTrace();
