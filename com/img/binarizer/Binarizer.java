@@ -85,7 +85,6 @@ public class Binarizer {
 			outFile.seek(12);	// skip header
 			int vecSize = new Integer(0); // initialized to 0
 			int sampCount = 0;
-			//while ((line = br.readLine()) != null) {
 			for (RegionFeature featureVector : sampleSet) {
 				if (vecSize == 0) vecSize = featureVector.size();
 				else if (vecSize != featureVector.size()) {
