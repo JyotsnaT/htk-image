@@ -22,7 +22,7 @@ public class LabelExtractor implements FeatureExtractor {
 	        	for(int x=ommit_boundary_width; x<img.getWidth()-ommit_boundary_width;x++){
 	        		r.getPixel(x, y, colorarray);
 	        		RegionFeature f = new RegionFeature();
-	        		f.add(colorarray[0]);
+	        		f.add(colorarray[0]); // Q: is this only red? We need to specify the G and B also
 	        		line.add(f);	        			
 	        	}
 	        	output[y-ommit_boundary_width]=line;
