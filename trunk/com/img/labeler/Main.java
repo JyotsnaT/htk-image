@@ -12,8 +12,6 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
-
 import javax.imageio.ImageIO;
 
 import com.img.extractor.*;
@@ -24,23 +22,12 @@ public class Main {
 	 * @param args input_image_list_file label_output_file
 	 * input_image_list is list of image to be processed
 	 * output_file is the single label file resulted
+	 * Usage sample: java Main imagelabel.test.scp label.mlf
 	 */
 	public static void main(String[] args) {
 		// Arguments
 		String inFileName = args[0];
 		String outFileName = args[1];
-		
-		// Initialize label mapping
-		HashMap<RegionFeature, String> labelMap = new HashMap<RegionFeature, String>();
-		
-		RegionFeature tmp = new RegionFeature();
-		// TODO: map pixel colors to transcription label 0 to 20, change the values and duplicate line
-		tmp.add(0.0); tmp.add(0.0); tmp.add(0.0);
-		labelMap.put(tmp, "0");
-		tmp.clear();
-		// TODO: continue
-		
-		
 		
 		//labeler.extractLabel(sampleSetArr, imageFileNoExt, lineNumStart)
 		// Input image file list: open input file and data stream
@@ -51,16 +38,18 @@ public class Main {
 			BufferedReader br = new BufferedReader(new InputStreamReader(inData));
 			
 			// Give Label and output
-			String fileName;	// buffered file names from list
+			String line, imageFileName, classFileName;	// line, image file names and class file from list
 			FeatureExtractor le = new LabelExtractor(5);
-			Labeler labeler = new Labeler(labelMap);
+			Labeler labeler = new Labeler();
 			PrintWriter out = new PrintWriter(new FileWriter(outFileName));
 			out.println("#!MLF!#");
-			while ((fileName = br.readLine()) != null) {
-				Path imagePath = Paths.get(fileName);
-				BufferedImage image = ImageIO.read(Files.newInputStream(imagePath));
-				ScanLine[] imageLines = le.extract(image);
-				labeler.extractLabel(imageLines, fileName.split("\\.")[0], 3); // replace 3 with what index to start with
+			while ((line = br.readLine()) != null) {
+				String[] tokens = line.split(" ");
+				imageFileName = tokens[0]; classFileName = tokens[1];
+				Path classImagePath = Paths.get(classFileName);
+				BufferedImage classImage = ImageIO.read(Files.newInputStream(classImagePath));
+				ScanLine[] imageLines = le.extract(classImage);
+				labeler.extractLabel(imageLines, imageFileName, 3); // replace 3 with what index to start with
 			}
 			out.close(); br.close(); inData.close(); 
 		} catch (FileNotFoundException e) {
