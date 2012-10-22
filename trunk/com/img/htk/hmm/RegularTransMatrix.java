@@ -8,9 +8,14 @@ public class RegularTransMatrix implements TransMatrix {
 		transMatrix=new double[size][size];
 		for(int i=0; i<size; i++){
 			Arrays.fill(transMatrix[i], 0);
-			transMatrix[i][i]=0.5;
-			if(i+1<size)
+			if(i==0){
+				transMatrix[i][1]=1;
+				continue;
+			}
+			if(i+1<size){
+			 transMatrix[i][i]=0.5;			
 			 transMatrix[i][i+1]=0.5;
+			}
 		}
 	}
 	public String toString(){
