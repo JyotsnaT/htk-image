@@ -47,7 +47,6 @@ public class Main {
                 InputStream is=Files.newInputStream(path);
                 Files.createDirectories(outputfolder);
                 BufferedImage image = ImageIO.read(is);
-                System.out.println(image.getType());
                 ScanLine[] features = fe.extract(image); // Note that the first floor(size/2) rows and columns are omitted
                 int startlineNum = 1 + blockSize/2; // calculate the omitted boundary
                 for (int i = 0; i < features.length; i++) {
