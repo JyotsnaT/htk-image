@@ -99,7 +99,7 @@ public class Labeler {
             else {
                 ret += ((alignStart * periodSize) + " " + (alignEnd * periodSize) + " " + curr + "\n");
                 alignStart = alignEnd; alignEnd = alignStart + 1;
-                curr = labelMap.get(read);
+                curr = read;
             }
         }
         ret += ((alignStart * periodSize) + " " + (alignEnd * periodSize) + " " + curr + "\n");

@@ -30,7 +30,10 @@ public class Main {
 		String inFileName = args[0];
 		String outFileName = args[1];
 		if (args.length == 3)
-		    if (args[2] == "align") isWriteAlignment = true;
+		    if (args[2].equals("align")) {
+		        isWriteAlignment = true;
+		        System.err.println("Writing alignment info");
+		    }
 		
 		//labeler.extractLabel(sampleSetArr, imageFileNoExt, lineNumStart)
 		// Input image file list: open input file and data stream
@@ -52,6 +55,7 @@ public class Main {
 				Path classImagePath = Paths.get(classFileName);
 				BufferedImage classImage = ImageIO.read(Files.newInputStream(classImagePath));
 				ScanLine[] imageLines = le.extract(classImage);
+				System.err.println(imageFileName);
 				String labels = (isWriteAlignment ?
 				        labeler.extractLabelAlignment(imageLines, imageFileName, 3) :
 				            labeler.extractLabel(imageLines, imageFileName, 3));
