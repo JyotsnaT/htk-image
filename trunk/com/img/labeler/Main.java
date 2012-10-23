@@ -19,15 +19,18 @@ import com.img.extractor.*;
 public class Main {
 
 	/**
-	 * @param args input_image_list_file label_output_file
+	 * @param args <input_image_list_file> <label_output_file> [align]
 	 * input_image_list is list of image to be processed
 	 * output_file is the single label file resulted
 	 * Usage sample: java Main imagelabel.test.scp label.mlf
 	 */
 	public static void main(String[] args) {
+	    boolean isWriteAlignment = false;
 		// Arguments
 		String inFileName = args[0];
 		String outFileName = args[1];
+		if (args.length == 3)
+		    if (args[2] == "align") isWriteAlignment = true;
 		
 		//labeler.extractLabel(sampleSetArr, imageFileNoExt, lineNumStart)
 		// Input image file list: open input file and data stream
@@ -49,7 +52,10 @@ public class Main {
 				Path classImagePath = Paths.get(classFileName);
 				BufferedImage classImage = ImageIO.read(Files.newInputStream(classImagePath));
 				ScanLine[] imageLines = le.extract(classImage);
-				labeler.extractLabel(imageLines, imageFileName, 3); // replace 3 with what index to start with
+				String labels = (isWriteAlignment ?
+				        labeler.extractLabelAlignment(imageLines, imageFileName, 3) :
+				            labeler.extractLabel(imageLines, imageFileName, 3));
+				out.print(labels); // replace 3 with what index to start with
 			}
 			out.close(); br.close(); inData.close(); 
 		} catch (FileNotFoundException e) {
