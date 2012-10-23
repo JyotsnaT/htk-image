@@ -1,7 +1,6 @@
 package com.img.labeler;
 
 import java.util.HashMap;
-
 import com.img.extractor.*;
 
 public class Labeler {
@@ -44,8 +43,9 @@ public class Labeler {
 		String ret = "";
 		int lineNum = lineNumStart;
 		for (ScanLine line : sampleSetArr) {
-			ret += ("\"" + imageFileNoExt + "\\line" + String.format("line%04d.lab", lineNum) + "\"\n");
+			ret += ("\"" + imageFileNoExt + String.format("/line%04d.lab", lineNum) + "\"\n");
 			ret += extractLabel(line);	// newline already written
+			ret += ".\n";
 			lineNum++;
 		}
 		return ret;
@@ -54,14 +54,56 @@ public class Labeler {
 	/**
 	 * Extract label for each pixel on a given line
 	 * @param sampleSet line sample containing 3-element RegionFeature vectors, corresponding to R, G, B
-	 * @param labelMap fixed mapping between color characteristic to its corresponding label
 	 */
 	public String extractLabel(ScanLine sampleSet) {
 		String ret = "";
 		for (RegionFeature featureVector : sampleSet) {
-			ret += labelMap.get(featureVector);
+			ret += labelMap.get(featureVector.get(0));
 			ret += "\n";
 		}
 		return ret;
 	}
+	
+	/**
+     * Extract label for each pixel range (aligned) on a given line but
+     * @param sampleSet line sample containing 3-element RegionFeature vectors, corresponding to R, G, B
+     */
+    public String extractLabelAlignment(ScanLine[] sampleSetArr, String imageFileNoExt, int lineNumStart) {
+        String ret = "";
+        int lineNum = lineNumStart;
+        for (ScanLine line : sampleSetArr) {
+            ret += ("\"" + imageFileNoExt + String.format("/line%04d.lab", lineNum) + "\"\n");
+            ret += extractLabelAlignment(line);  // newline already written
+            ret += ".\n";
+            lineNum++;
+        }
+        return ret;
+    }
+	
+	/**
+     * Extract label for each pixel range (aligned) on a given line but
+     * @param sampleSet line sample containing 3-element RegionFeature vectors, corresponding to R, G, B
+     */
+    public String extractLabelAlignment(ScanLine sampleSet) {
+        // Initialization
+        int periodSize = 100000;
+        int alignStart = 0; int alignEnd = 1;
+        Character curr = labelMap.get(sampleSet.get(0).get(0));
+        Character read;
+        String ret = "";
+        
+        for (int i = 1; i < sampleSet.size(); i++) {
+            read = labelMap.get(sampleSet.get(i).get(0));
+            if (read == curr) // no file write if same, defer until it is different
+                alignEnd++;
+            else {
+                ret += ((alignStart * periodSize) + " " + (alignEnd * periodSize) + " " + curr + "\n");
+                alignStart = alignEnd; alignEnd = alignStart + 1;
+                curr = labelMap.get(read);
+            }
+        }
+        ret += ((alignStart * periodSize) + " " + (alignEnd * periodSize) + " " + curr + "\n");
+        
+        return ret;
+    }
 }
