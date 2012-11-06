@@ -28,9 +28,10 @@ public class Main {
         String inFileName = args[0];
         
         // Binarizing: Feature Extraction
-        try (FileInputStream inFile = new FileInputStream(inFileName);
-                DataInputStream inData = new DataInputStream(inFile);
-                BufferedReader br = new BufferedReader(new InputStreamReader(inData))) {
+        try {
+            FileInputStream inFile = new FileInputStream(inFileName);
+            DataInputStream inData = new DataInputStream(inFile);
+            BufferedReader br = new BufferedReader(new InputStreamReader(inData));
             String line, filepath;        // line buffer, image file path
             Path outputfolder;
             int blockSize=5;    // block dimension for pixel feature extraction: 5 x 5
@@ -55,6 +56,7 @@ public class Main {
                     bn.binarize(features[i], pix.toString());
                 }
             }
+            br.close();
 		} catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

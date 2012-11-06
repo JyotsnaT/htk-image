@@ -8,7 +8,7 @@ public class Labeler {
 	
 	public Labeler() {
 		// Fill in table to translate floating point from RegionFeature to applicable alphabet
-		labelMap = new HashMap<>();
+		labelMap = new HashMap<Double, Character>();
 		labelMap.put(0.0, 'A');		// background
 		labelMap.put(1.0, 'B');		// airplane
 		labelMap.put(2.0, 'C');		// bicycle

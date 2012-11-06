@@ -5,7 +5,7 @@ import java.util.List;
 
 public class HMM {
     
-    List<HMMState> s=new ArrayList<>();
+    List<HMMState> s=new ArrayList<HMMState>();
 	TransMatrix transP;
 	public HMM(TransMatrix m){
 		transP=m;

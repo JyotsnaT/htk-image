@@ -21,13 +21,12 @@ public class ModelCopy {
 	}
 	public static String replicateHMM(Path source, String[] name) throws IOException{
 		StringBuilder sb=new StringBuilder();
-        try(BufferedReader reader=Files.newBufferedReader(source, Charset.defaultCharset())){        	
-        	String line=reader.readLine();
-        	while(line!=null){
-        	  sb.append(line).append("\r\n");
-        	  line=reader.readLine();
-        	}
-        }
+		BufferedReader reader=Files.newBufferedReader(source, Charset.defaultCharset());
+    	String line=reader.readLine();
+    	while(line!=null){
+    	  sb.append(line).append("\r\n");
+    	  line=reader.readLine();
+    	}
         String model=sb.toString();
         StringBuilder output=new StringBuilder();
         for(String n: name){
