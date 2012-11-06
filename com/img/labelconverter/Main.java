@@ -33,6 +33,7 @@ public class Main {
             }
             
             PrintWriter out = new PrintWriter(new FileWriter(outFileName));
+            out.println("#!MLF!#");
             String line;    // line buffer
             int transcLen;  // length of transcription
             int periodSize = 100000;    // pre-defined sampling/transcription period
