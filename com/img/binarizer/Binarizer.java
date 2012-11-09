@@ -102,6 +102,7 @@ public class Binarizer {
 			buffer = aux.ConvertToByte((int) 100000); outFile.write(buffer);
 			buffer = aux.ConvertToByte((short) (4 * vecSize)); outFile.write(buffer);
 			buffer = aux.ConvertToByte((short) 9); outFile.write(buffer);	// USER
+		
 			outFile.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
