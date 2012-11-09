@@ -27,27 +27,29 @@ public class CommonUtils {
 
 	
 
-	public static RegionFeature cosineTransform3Channel(double[][][] region) {
+	public static RegionFeature cosineTransform3Channel(double[][][] region, int[] featuresize) {
 		// TODO Auto-generated method stub
 		RegionFeature output=new RegionFeature();
 		
-		insertcosineTransformData(0, region, output);
-		insertcosineTransformData(1, region, output);
-		insertcosineTransformData(2, region, output);
+		insertcosineTransformData(0, region, output, featuresize[0]);
+		insertcosineTransformData(1, region, output, featuresize[1]);
+		insertcosineTransformData(2, region, output, featuresize[2]);
 		
 		return output;
 	}
 	
-	public static void insertcosineTransformData(int index, double[][][] region, RegionFeature featureset) {
+	public static void insertcosineTransformData(int index, double[][][] region, RegionFeature featureset, int featuresize) {
 		double[][] c0 = getChannel(index, region);
 		RealMatrix m0=new Array2DRowRealMatrix(c0);
 		transform2D(m0, transformer);
 		
 		double[][] data = m0.getData();
-		for(double[] row: data){
-			for(double entry: row)
-				featureset.add(entry);
-		}
+	    for(int i=0; i<data.length; i++ )
+	    	for(int j=0; j<data[i].length; j++)
+		     {
+			   if(i+j<featuresize)
+				featureset.add(data[i][j]);
+		     }
 		
 		
 	}

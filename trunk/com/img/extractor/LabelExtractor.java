@@ -26,7 +26,7 @@ public class LabelExtractor implements FeatureExtractor {
 	        		RegionFeature f = new RegionFeature();
 	        		if (img.getType() == 5) {
     	        		if (colorarray[0]==0 && colorarray[1]==0 && colorarray[2]==0)
-    	        		    f.add(0.0);
+    	         		    f.add(0.0);
     	        		else if (colorarray[0]==128 && colorarray[1]==0 && colorarray[2]==0)
     	        		    f.add(1.0);
     	        		else if (colorarray[0]==0 && colorarray[1]==128 && colorarray[2]==0)
