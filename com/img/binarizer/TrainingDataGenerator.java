@@ -1,8 +1,6 @@
 package com.img.binarizer;
 
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.DirectoryStream;
@@ -24,15 +22,15 @@ public class TrainingDataGenerator {
 	 */
 	public static void main(String[] args) throws IOException {
 	       // Arguments processing
-        String imagefolder = "D:/Img/Train";
-        String outputfolder="D:/ImgPix";
+        String imagefolder = args[0]; //"D:/Img/Train";
+        String outputfolder= args[1]; //"D:/ImgPix";
         Path imgfolderDir=Paths.get(imagefolder);
         int blockSize=5;    // block dimension for pixel feature extraction: 5 x 5
         Binarizer bn = new Binarizer();
         FeatureExtractor fe = new DCTExtractor(blockSize);
         try(DirectoryStream<Path> dirstream = Files.newDirectoryStream(imgfolderDir)){
         
-          for(Path filepath: dirstream ){
+          for(Path filepath: dirstream ) {
            
              try(InputStream is=Files.newInputStream(filepath)){
             	 BufferedImage image = ImageIO.read(is);
