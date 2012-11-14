@@ -1,7 +1,6 @@
 package com.img.extractor;
 
 import java.awt.image.BufferedImage;
-import java.util.Arrays;
 
 
 public class DCTExtractor implements FeatureExtractor {
@@ -39,7 +38,4 @@ public class DCTExtractor implements FeatureExtractor {
         }		
 		return output;
 	}
-    
-	
-
 }

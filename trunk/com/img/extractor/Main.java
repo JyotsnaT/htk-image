@@ -27,7 +27,7 @@ public class Main {
 	    Path path = Paths.get(filepath);
 	    //Path outputfolder=Paths.get("D:", path.getFileName().toString().split("\\.")[0]);// The "D:" can be change to any absolute path of a folder. The outputfolder is this case is D:\[filename]
 	    Path outputfolder=Paths.get(filepath.split("\\.")[0]);// The "D:" can be change to any absolute path of a folder. The outputfolder is this case is D:\[filename]
-	   
+	    sc.close();
 	    try {
 	        InputStream is=Files.newInputStream(path);
 	    	Files.createDirectories(outputfolder);
