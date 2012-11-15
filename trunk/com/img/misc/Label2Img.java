@@ -20,18 +20,16 @@ import com.img.extractor.ScanLine;
 public class Label2Img {
 
 	/**
-	 * @param args
+	 * @param args <label_file>.mlf <output_folder>
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
-		String labelfilepath="D:/ImgPix/hmm6/test.mlf";
-		String outputfolder="D:/ImgPix/hmm6/Img";
+		String labelfilepath=args[0];
+		String outputfolder=args[1];
 		int padding=2;
 		Path labelfile=Paths.get(labelfilepath);
 		String imgname=null;
-		
-		
 		
 		try(BufferedReader br=Files.newBufferedReader(labelfile, Charset.defaultCharset())){
 			String line=br.readLine();
@@ -49,7 +47,7 @@ public class Label2Img {
 					  addLine(br, compressimg);					  					  
 				  }else{
 					  BufferedImage img=convertToImg(compressimg, padding);
-					  try(OutputStream os=Files.newOutputStream(Paths.get(outputfolder, imgname+".png"))){
+					  try(OutputStream os=Files.newOutputStream(Paths.get(outputfolder, imgname+"label.png"))){
 						  ImageIO.write(img, "png", os);
 					  }
 					  imgname=current_img;
