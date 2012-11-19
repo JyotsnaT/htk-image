@@ -38,8 +38,10 @@ public class Label2Img {
 			while(line!=null){
 			  if(line.startsWith("\"")){
 				  line=line.substring(1, line.length()-1);
-				  Path imgpath=Paths.get(line);
-				  String current_img=imgpath.getFileName().toString().substring(0, 11);
+				  Path linepath=Paths.get(line);
+				  Path imgpath=Paths.get(linepath.getParent().toString() + ".png");
+				  String current_img=imgpath.getFileName().toString();//.substring(0, 11);
+				  //System.err.println(current_img);
 				  if(imgname==null){
 					  imgname=current_img;
 				  }
@@ -47,7 +49,8 @@ public class Label2Img {
 					  addLine(br, compressimg);					  					  
 				  }else{
 					  BufferedImage img=convertToImg(compressimg, padding);
-					  try(OutputStream os=Files.newOutputStream(Paths.get(outputfolder, imgname+"label.png"))){
+					  System.err.println(outputfolder + "/" + imgname);
+					  try(OutputStream os=Files.newOutputStream(Paths.get(outputfolder + "/" + imgname))){
 						  ImageIO.write(img, "png", os);
 					  }
 					  imgname=current_img;
@@ -61,9 +64,10 @@ public class Label2Img {
 			  line=br.readLine();
 			  
 			}
-			BufferedImage img=convertToImg(compressimg, padding);
-			  try(OutputStream os=Files.newOutputStream(Paths.get(outputfolder, imgname+".png"))){
-				  ImageIO.write(img, "png", os);
+		    BufferedImage img=convertToImg(compressimg, padding);
+		    System.err.println(outputfolder + "/" + imgname);
+		    try(OutputStream os=Files.newOutputStream(Paths.get(outputfolder, imgname))){
+			  ImageIO.write(img, "png", os);
 			}
 			
 		}

@@ -1,7 +1,6 @@
 package com.img.extractor;
 
 import java.awt.image.BufferedImage;
-import java.util.Arrays;
 
 
 public class DCTAndCoordinateExtractor implements FeatureExtractor {
