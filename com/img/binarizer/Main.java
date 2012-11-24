@@ -13,6 +13,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import javax.imageio.ImageIO;
 
+import com.img.extractor.DCTAndCoordinateExtractor;
 import com.img.extractor.DCTExtractor;
 import com.img.extractor.FeatureExtractor;
 import com.img.extractor.ScanLine;
@@ -20,12 +21,17 @@ import com.img.extractor.ScanLine;
 public class Main {
 
 	/**
-	 * @param args <inFileName> name of file containing list of image files to be processed
-	 * Usage sample: java Main binarize.train.scp
+	 * @param args <inFileName> [coord]
+	 * <inFileName>: name of file containing list of image files to be processed
+	 * coord: means that y-coordinate and distance from center will be included in extraction
+	 * Usage sample: java Main binarize.train.scp [coord]
 	 */
     public static void main(String[] args) {
         // Arguments processing
         String inFileName = args[0];
+        boolean isWithCoord = false;
+        if (args.length > 1)
+            isWithCoord = args[1].equals("coord");
         
         // Binarizing: Feature Extraction
         try {
@@ -41,7 +47,8 @@ public class Main {
                 // line pre-processing
                 String[] tokens = line.split(" ");
                 filepath = tokens[0]; outputfolder = Paths.get(tokens[1]); 
-                FeatureExtractor fe = new DCTExtractor(blockSize);
+                FeatureExtractor fe = (isWithCoord ?
+                        new DCTAndCoordinateExtractor(blockSize) : new DCTExtractor(blockSize));
                 Path path = Paths.get(filepath);
                 
                 // image file processing
