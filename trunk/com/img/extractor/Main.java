@@ -25,7 +25,6 @@ public class Main {
 		int size=5;
 		FeatureExtractor fe=new LabelExtractor(5); //let the size of the block be 5x5.
 	    Path path = Paths.get(filepath);
-	    //Path outputfolder=Paths.get("D:", path.getFileName().toString().split("\\.")[0]);// The "D:" can be change to any absolute path of a folder. The outputfolder is this case is D:\[filename]
 	    Path outputfolder=Paths.get(filepath.split("\\.")[0]);// The "D:" can be change to any absolute path of a folder. The outputfolder is this case is D:\[filename]
 	    sc.close();
 	    try {
@@ -37,12 +36,11 @@ public class Main {
 	    	Binarizer bn=new Binarizer();
 	    	int startlineNum=1+size/2;//calculate the ommited boundary.
 	    	for(int i=0; i<features.length; i++){	//each line become one file.
-	    	 Path pix=Paths.get(outputfolder.toString(), String.format("line%04d.label", i+startlineNum));
-	    	 bn.binarize(features[i], pix.toString());
+	    	  Path pix=Paths.get(outputfolder.toString(), String.format("line%04d.label", i+startlineNum));
+	    	  bn.binarize(features[i], pix.toString());
 	    	}
 	    	
 	    } catch (IOException e) {
-			
 			e.printStackTrace();
 	    }
 	}
