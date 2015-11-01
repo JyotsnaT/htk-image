@@ -1,0 +1,1 @@
+Convert Image data to a format that can be input to the HTK HMM.
